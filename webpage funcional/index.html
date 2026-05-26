@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de IMC</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora de IMC</h1>
+        
+        <div class="input-group">
+            <label for="peso">Peso (kg):</label>
+            <input type="number" id="peso" step="0.1" placeholder="Ex: 70.5">
+        </div>
+
+        <div class="input-group">
+            <label for="altura">Altura (m):</label>
+            <input type="number" id="altura" step="0.01" placeholder="Ex: 1.75">
+        </div>
+
+        <button onclick="calcularIMC()">Calcular</button>
+
+        <div id="resultado" class="resultado"></div>
+    </div>
+
+    <script>
+        function calcularIMC() {
+            const peso = parseFloat(document.getElementById('peso').value);
+            const altura = parseFloat(document.getElementById('altura').value);
+            const resultadoDiv = document.getElementById('resultado');
+
+            if (isNaN(peso) || isNaN(altura) || peso <= 0 || altura <= 0) {
+                resultadoDiv.innerHTML = "Por favor, insira valores válidos.";
+                resultadoDiv.className = "resultado";
+                return;
+            }
+
+            const imc = (peso / (altura ** 2)).toFixed(2);
+            let classificacao = "";
+
+            if (imc < 18.5) {
+                classificacao = "Abaixo do peso";
+            } else if (imc >= 18.5 && imc <= 24.9) {
+                classificacao = "Peso normal";
+            } else if (imc >= 25.0 && imc <= 29.9) {
+                classificacao = "Sobrepeso";
+            } else if (imc >= 30.0 && imc <= 34.9) {
+                classificacao = "Obesidade Grau I";
+            } else if (imc >= 35.0 && imc <= 39.9) {
+                classificacao = "Obesidade Grau II (severa)";
+            } else {
+                classificacao = "Obesidade Grau III (morbida)";
+            }
+
+            resultadoDiv.innerHTML = `Seu IMC é: <strong>${imc.replace('.', ',')}</strong><br>Situação: <strong>${classificacao}</strong>`;
+            resultadoDiv.className = "resultado show";
+        }
+    </script>
+</body>
+</html>
